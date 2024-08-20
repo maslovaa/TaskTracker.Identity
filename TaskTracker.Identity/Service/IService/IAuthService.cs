@@ -4,8 +4,7 @@ namespace TaskTracker.Identity.Service.IService
 {
     public interface IAuthService
     {
-        Task<string> Register(RegistrationRequestDto registrationRequestDto);
-        Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto);
-        Task<bool> AssignRole(string email, string roleName);
+        Task<AuthResponseDto> Register(RegistrationRequestDto registrationRequestDto);
+        Task<AuthResponseDto> Login(LoginRequestDto loginRequestDto);
     }
 }
