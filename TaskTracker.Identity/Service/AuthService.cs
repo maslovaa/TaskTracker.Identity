@@ -39,6 +39,7 @@ namespace TaskTracker.Identity.Service
             var token = _jwtTokenGenerator.GenerateToken(user);
 
             authResponseDto.Token = token;
+            authResponseDto.UserId = Guid.Parse(user.Id);
 
             return authResponseDto;
         }
@@ -71,6 +72,7 @@ namespace TaskTracker.Identity.Service
 
 
                     authResponseDto.Token= token;
+                    authResponseDto.UserId = Guid.Parse(user.Id);  
 
                     return authResponseDto;
 

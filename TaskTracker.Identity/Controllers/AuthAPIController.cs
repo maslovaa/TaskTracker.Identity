@@ -30,6 +30,8 @@ namespace TaskTracker.Identity.Controllers
                 return BadRequest(_response);
             }
             _response.Token = result.Token;
+            _response.UserId = result.UserId;
+
             return Ok(_response);
         }
 
@@ -43,6 +45,8 @@ namespace TaskTracker.Identity.Controllers
                 return BadRequest(_response);
             }
             _response.Token = authResponse.Token;
+            _response.UserId = authResponse.UserId;
+
             return Ok(_response);
 
         }
