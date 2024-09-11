@@ -4,23 +4,17 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using TaskTracker.Identity.Model;
-using TaskTracker.Identity.Service.IService;
 
-namespace TaskTracker.Identity.Service
+namespace TaskTracker.Identity.Service.JwtTokens.JwtGeneration.JwtGenerateImplementations
 {
-    public class JwtTokenGenerator : IJwtTokenGenerator
+    public class CreateBaseJwtToken : IJwtCreatable
     {
-        private readonly JwtOptions _jwtOptions;
-        public JwtTokenGenerator(IOptions<JwtOptions> jwtOptions)
-        {
-            _jwtOptions = jwtOptions.Value;
-        }
-
-        public string GenerateToken(ApplicationUser applicationUser)
+        
+        public string GetToken(ApplicationUser applicationUser, JwtOptions jwtOptions)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret);
+            var key = Encoding.ASCII.GetBytes(jwtOptions.Secret);
 
             var claimList = new List<Claim>
             {
@@ -31,8 +25,8 @@ namespace TaskTracker.Identity.Service
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Audience = _jwtOptions.Audience,
-                Issuer = _jwtOptions.Issuer,
+                Audience = jwtOptions.Audience,
+                Issuer = jwtOptions.Issuer,
                 Subject = new ClaimsIdentity(claimList),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
