@@ -5,6 +5,6 @@ namespace TaskTracker.Identity.Service.IService
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(IJwtCreatable jwtCreateImplementation, ApplicationUser applicationUser);
+        Task<string> GenerateToken(IJwtCreatable jwtCreateImplementation, ApplicationUser applicationUser);
     }
 }
