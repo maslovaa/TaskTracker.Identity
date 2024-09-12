@@ -4,6 +4,7 @@ using TaskTracker.Identity.Data;
 using TaskTracker.Identity.Model;
 using TaskTracker.Identity.Service.IService;
 using TaskTracker.Identity.Service;
+using TaskTracker.Identity.Service.JwtTokens;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -3,6 +3,7 @@ using TaskTracker.Identity.Data;
 using TaskTracker.Identity.Model.Dto;
 using TaskTracker.Identity.Model;
 using TaskTracker.Identity.Service.IService;
+using TaskTracker.Identity.Service.JwtTokens.JwtGeneration.JwtGenerateImplementations;
 
 namespace TaskTracker.Identity.Service
 {
@@ -22,6 +23,8 @@ namespace TaskTracker.Identity.Service
 
         public async Task<AuthResponseDto> Login(LoginRequestDto loginRequestDto)
         {
+            var jwtCreater = new CreateBaseJwtToken();
+
             var authResponseDto = new AuthResponseDto();
 
             var user = _db.ApplicationUsers.FirstOrDefault(u => u.UserName.ToLower() == loginRequestDto.UserName.ToLower());
@@ -36,7 +39,7 @@ namespace TaskTracker.Identity.Service
             }
 
             //если пользователь был найден, создаём jwt токен
-            var token = _jwtTokenGenerator.GenerateToken(user);
+            var token = await _jwtTokenGenerator.GenerateToken(jwtCreater, user);
 
             authResponseDto.Token = token;
             authResponseDto.UserId = Guid.Parse(user.Id);
@@ -46,6 +49,8 @@ namespace TaskTracker.Identity.Service
 
         public async Task<AuthResponseDto> Register(RegistrationRequestDto registrationRequestDto)
         {
+            var jwtCreater = new CreateBaseJwtToken();
+
             var authResponseDto = new AuthResponseDto();
 
             ApplicationUser user = new()
@@ -68,7 +73,7 @@ namespace TaskTracker.Identity.Service
                     var newUser = _db.ApplicationUsers.First(u => u.UserName == registrationRequestDto.UserName);
 
                     //создаём jwt токен для зарегистрированного пользователя
-                    var token = _jwtTokenGenerator.GenerateToken(newUser);
+                    var token = await _jwtTokenGenerator.GenerateToken(jwtCreater, newUser);
 
 
                     authResponseDto.Token= token;
